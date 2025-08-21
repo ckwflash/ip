@@ -5,10 +5,14 @@ public class ToDoTask extends Task {
     protected String taskType;
 
     /**
-     * Constructs a defualt ToDoTask with the specified description
+     * Constructs a default ToDoTask with the specified description
+     * Throws LunaException if description is empty or blank
      */
-    public ToDoTask(String description) {
+    public ToDoTask(String description) throws LunaException {
         super(description);
+        if (description == null || description.isBlank()) {
+            throw new LunaException("Description cannot be empty");
+        }
         this.taskType = "T";
     }
 
