@@ -2,6 +2,8 @@
  * Application entry point
  */
 
+import java.util.Scanner; 
+
 public class Luna {
     public static void main(String[] args) {
         Task[] tasks = new Task[100];
@@ -18,9 +20,11 @@ public class Luna {
                 + "____________________________________________________________\n";
         System.out.println(intro);
 
+        Scanner scanner = new Scanner(System.in);
+        // scanner needs to be used as because System.console() will always return null when input is redirected from a file
         String input = "";
         while (true) {
-            input = System.console().readLine();
+            input = scanner.nextLine();
             if (input.equals("bye")) {
                 break;
             } else if (input.equals("list")) {
@@ -77,6 +81,7 @@ public class Luna {
         }
 
         System.out.println(goodbye);
+        scanner.close();
     }
 
     /**
