@@ -2,13 +2,12 @@
  * Application entry point
  */
 
-import java.util.Scanner; 
+import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Luna {
     public static void main(String[] args) {
-        Task[] tasks = new Task[100];
-        int count = 0;
-
+        ArrayList<Task> tasks = new ArrayList<>();
         String intro =
             "____________________________________________________________\n"
                 + " Hello, nice to meet you! I'm Luna\n"
@@ -29,8 +28,8 @@ public class Luna {
                 if (input.equals("bye")) {
                     break;
                 } else if (input.equals("list")) {
-                    for (int i = 0; i < count; i++) {
-                        System.out.println((i + 1) + ". " + tasks[i].taskView());
+                    for (int i = 0; i < tasks.size(); i++) {
+                        System.out.println((i + 1) + ". " + tasks.get(i).taskView());
                     }
                     System.out.println();
                 } else {
@@ -39,7 +38,7 @@ public class Luna {
                     switch (command) {
                     case "mark":
                         if (parts.length > 1 && !parts[1].isBlank()) {
-                            markCommand(parts[1], tasks, count, true);
+                            markCommand(parts[1], tasks, true);
                         } else {
                             throw new LunaException("Please provide a task number to mark.");
                         }
@@ -47,7 +46,7 @@ public class Luna {
                         break;
                     case "unmark":
                         if (parts.length > 1 && !parts[1].isBlank()) {
-                            markCommand(parts[1], tasks, count, false);
+                            markCommand(parts[1], tasks, false);
                         } else {
                             throw new LunaException("Please provide a task number to unmark.");
                         }
@@ -55,21 +54,18 @@ public class Luna {
                         break;
                     case "todo":
                         Task todo = new ToDoTask(parts.length > 1 ? parts[1] : "");
-                        tasks[count] = todo;
-                        count++;
-                        printAddTaskMsg(todo, count);
+                        tasks.add(todo);
+                        printAddTaskMsg(todo, tasks.size());
                         break;
                     case "deadline":
                         Task deadline = new DeadlineTask(parts.length > 1 ? parts[1] : "");
-                        tasks[count] = deadline;
-                        count++;
-                        printAddTaskMsg(deadline, count);
+                        tasks.add(deadline);
+                        printAddTaskMsg(deadline, tasks.size());
                         break;
                     case "event":
                         Task event = new EventTask(parts.length > 1 ? parts[1] : "");
-                        tasks[count] = event;
-                        count++;
-                        printAddTaskMsg(event, count);
+                        tasks.add(event);
+                        printAddTaskMsg(event, tasks.size());
                         break;
                     default:
                         throw new LunaException("Sorry! I dont gets");
@@ -88,23 +84,23 @@ public class Luna {
     /**
      * Checks if the marking is valid and does so
      */
-    private static void markCommand(String indexStr, Task[] tasks, int count, boolean markDone) throws LunaException {
+    private static void markCommand(String indexStr, ArrayList<Task> tasks, boolean markDone) throws LunaException {
         int index;
         try {
             index = Integer.parseInt(indexStr) - 1;
         } catch (NumberFormatException e) {
             throw new LunaException("Please give a valid task number");
         }
-        if (index < 0 || index >= count) {
+        if (index < 0 || index >= tasks.size()) {
             throw new LunaException("Task index is out of bounds");
         }
-        tasks[index].markDone(markDone);
+        tasks.get(index).markDone(markDone);
         if (markDone) {
             System.out.println("Nice! This task has been marked as done:");
-            System.out.println("  " + tasks[index].taskView());
+            System.out.println("  " + tasks.get(index).taskView());
         } else {
             System.out.println("OK, This task has been marked as not done yet:");
-            System.out.println("  " + tasks[index].taskView());
+            System.out.println("  " + tasks.get(index).taskView());
         }
     }
 
