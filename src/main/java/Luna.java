@@ -4,7 +4,7 @@
 
 public class Luna {
     public static void main(String[] args) {
-        String[] inputs = new String[100];
+        Task[] tasks = new Task[100];
         int count = 0;
 
         String intro =
@@ -25,16 +25,43 @@ public class Luna {
                 break;
             } else if (input.equals("list")) {
                 for (int i = 0; i < count; i++) {
-                    System.out.println((i + 1) + ". " + inputs[i]);
+                    System.out.println((i + 1) + ". " + tasks[i].taskView());
                 }
-
+                System.out.println();
+            } else if (input.startsWith("mark")) {
+                markCommand(input, tasks, count, true);
+                System.out.println();
+            } else if (input.startsWith("unmark")) {
+                markCommand(input, tasks, count, false);
+                System.out.println();
             } else {
-                inputs[count] = input;
+                tasks[count] = new Task(input);
                 count++;
                 System.out.println("added: " + input);
+                System.out.println();
             }
         }
 
         System.out.println(goodbye);
+    }
+
+    /**
+     * Checks if the marking is valid and does so
+     */
+    private static void markCommand(String input, Task[] tasks, int count, boolean markDone) {
+        String[] parts = input.split(" ");
+        if (parts.length > 1) {
+            int index = Integer.parseInt(parts[1]) - 1;
+            if (index >= 0 && index < count) {
+                tasks[index].markDone(markDone);
+                if (markDone) {
+                    System.out.println("Nice! This task has been marked as done:");
+                    System.out.println("  " + tasks[index].taskView());
+                } else {
+                    System.out.println("OK, This task has been marked as not done yet:");
+                    System.out.println("  " + tasks[index].taskView());
+                }
+            }
+        }
     }
 }
