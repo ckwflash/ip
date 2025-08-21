@@ -1,7 +1,31 @@
-Hello from
- ____        _        
-|  _ \ _   _| | _____ 
-| | | | | | | |/ / _ \
-| |_| | |_| |   <  __/
-|____/ \__,_|_|\_\___|
+____________________________________________________________
+ Hello, nice to meet you! I'm Luna
+ What can I do for you?
+____________________________________________________________
+
+ Got it. The following task has been added:
+  [T] [ ] todo read book
+ Now you have 1 tasks in the list.
+
+ Got it. The following task has been added:
+  [D] [ ] return book (by: June 6th)
+ Now you have 2 tasks in the list.
+
+ Got it. The following task has been added:
+  [E] [ ] project meeting (from: Aug 6th 2pm to: 4pm)
+ Now you have 3 tasks in the list.
+
+1. [T] [ ] todo read book
+2. [D] [ ] return book (by: June 6th)
+3. [E] [ ] project meeting (from: Aug 6th 2pm to: 4pm)
+
+Nice! This task has been marked as done:
+  [T] [X] todo read book
+
+OK, This task has been marked as not done yet:
+  [T] [ ] todo read book
+
+____________________________________________________________
+ Goodbye! Hope to see you again
+____________________________________________________________
 
