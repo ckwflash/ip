@@ -40,7 +40,7 @@ public class Luna {
                         if (parts.length > 1 && !parts[1].isBlank()) {
                             markCommand(parts[1], tasks, true);
                         } else {
-                            throw new LunaException("Please provide a task number to mark.");
+                            throw new LunaException("Please provide a task number to mark");
                         }
                         System.out.println();
                         break;
@@ -48,9 +48,29 @@ public class Luna {
                         if (parts.length > 1 && !parts[1].isBlank()) {
                             markCommand(parts[1], tasks, false);
                         } else {
-                            throw new LunaException("Please provide a task number to unmark.");
+                            throw new LunaException("Please provide a task number to unmark");
                         }
                         System.out.println();
+                        break;
+                    case "delete":
+                        if (parts.length > 1 && !parts[1].isBlank()) {
+                            int index;
+                            try {
+                                index = Integer.parseInt(parts[1]) - 1;
+                            } catch (NumberFormatException e) {
+                                throw new LunaException("Please give a valid task number to delete");
+                            }
+                            if (index < 0 || index >= tasks.size()) {
+                                throw new LunaException("Task index is out of bounds");
+                            }
+                            Task removed = tasks.remove(index);
+                            System.out.println("The following task has been removed:");
+                            System.out.println("  " + removed.taskView());
+                            System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+                            System.out.println();
+                        } else {
+                            throw new LunaException("Please give a task number to delete");
+                        }
                         break;
                     case "todo":
                         Task todo = new ToDoTask(parts.length > 1 ? parts[1] : "");
@@ -105,7 +125,7 @@ public class Luna {
     }
 
     private static void printAddTaskMsg(Task task, int count) {
-        System.out.println(" Got it. The following task has been added:");
+        System.out.println(" The following task has been added:");
         System.out.println("  " + task.taskView());
         System.out.println(" Now you have " + count + " tasks in the list.");
         System.out.println();
