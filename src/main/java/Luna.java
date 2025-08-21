@@ -4,6 +4,9 @@
 
 public class Luna {
     public static void main(String[] args) {
+        String[] inputs = new String[100];
+        int count = 0;
+
         String intro =
             "____________________________________________________________\n"
                 + " Hello, nice to meet you! I'm Luna\n"
@@ -16,10 +19,19 @@ public class Luna {
         System.out.println(intro);
 
         String input = "";
-        while (!input.equals("bye")) {
+        while (true) {
             input = System.console().readLine();
-            if (!input.equals("bye")) {
-                System.out.println("Entered: " + input);
+            if (input.equals("bye")) {
+                break;
+            } else if (input.equals("list")) {
+                for (int i = 0; i < count; i++) {
+                    System.out.println((i + 1) + ". " + inputs[i]);
+                }
+
+            } else {
+                inputs[count] = input;
+                count++;
+                System.out.println("added: " + input);
             }
         }
 
