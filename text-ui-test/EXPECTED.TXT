@@ -4,26 +4,46 @@ ____________________________________________________________
 ____________________________________________________________
 
  Got it. The following task has been added:
-  [T] [ ] todo read book
+  [T] [ ] read book
  Now you have 1 tasks in the list.
+
+Description cannot be empty
 
  Got it. The following task has been added:
   [D] [ ] return book (by: June 6th)
  Now you have 2 tasks in the list.
 
+Please provide end time for deadline with /by
+
+Please provide end time for deadline with /by
+
  Got it. The following task has been added:
   [E] [ ] project meeting (from: Aug 6th 2pm to: 4pm)
  Now you have 3 tasks in the list.
 
-1. [T] [ ] todo read book
+Please provide start time and /from for event
+
+Please provide end time and /to for event
+
+Please provide start time and /from for event
+
+Please provide start time and /from for event
+
+Sorry! I dont gets
+
+1. [T] [ ] read book
 2. [D] [ ] return book (by: June 6th)
 3. [E] [ ] project meeting (from: Aug 6th 2pm to: 4pm)
 
 Nice! This task has been marked as done:
-  [T] [X] todo read book
+  [T] [X] read book
+
+Task index is out of bounds
 
 OK, This task has been marked as not done yet:
-  [T] [ ] todo read book
+  [T] [ ] read book
+
+Task index is out of bounds
 
 ____________________________________________________________
  Goodbye! Hope to see you again
