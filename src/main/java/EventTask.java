@@ -16,7 +16,7 @@ public class EventTask extends DeadlineTask {
 
     @Override
     public String taskView() {
-        return "[" + taskType + "]"
+        return "[" + taskType + "] "
             + String.format("[%s] %s", this.getStatusIcon(), description)
             + " (from: " + startTime + " to: " + endTime + ")";
     }
