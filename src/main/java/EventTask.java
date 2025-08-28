@@ -30,7 +30,9 @@ public class EventTask extends ToDoTask {
     private static String parseStartTime(String input) {
         int fromIdx = input.indexOf(" /from ");
         int toIdx = input.indexOf(" /to ");
-        if (fromIdx == -1 || toIdx == -1 || toIdx < fromIdx || toIdx <= fromIdx + 7) return "";
+        if (fromIdx == -1 || toIdx == -1 || toIdx < fromIdx || toIdx <= fromIdx + 7) {
+            return "";
+        }
         return input.substring(fromIdx + 7, toIdx);
     }
 

@@ -1,10 +1,8 @@
+import java.util.ArrayList;
+import java.util.Scanner;
 /**
  * Application entry point
  */
-
-import java.util.ArrayList;
-import java.util.Scanner;
-
 public class Luna {
     public static void main(String[] args) {
         ArrayList<Task> tasks = new ArrayList<>();
@@ -20,7 +18,7 @@ public class Luna {
         System.out.println(intro);
 
         Scanner scanner = new Scanner(System.in);
-        // scanner needs to be used as because System.console() will always return null when input is redirected from a file
+
         String input = "";
         while (true) {
             try {
