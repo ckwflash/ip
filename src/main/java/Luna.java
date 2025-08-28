@@ -20,70 +20,13 @@ public class Luna {
         while (ui.hasMoreInput()) {
             try {
                 input = ui.readCommand();
-                if (input.equals("bye")) {
+                ParsedCommand parsedCommand = Parser.parse(input);
+                
+                if (parsedCommand.isExit()) {
                     break;
-                } else if (input.equals("list")) {
-                    ui.showTaskList(tasks);
-                } else {
-                    String[] parts = input.split(" ", 2);
-                    String command = parts[0];
-                    switch (command) {
-                    case "mark":
-                        if (parts.length > 1 && !parts[1].isBlank()) {
-                            markCommand(parts[1], tasks, true, ui);
-                            storage.save(tasks);
-                        } else {
-                            throw new LunaException("Please provide a task number to mark");
-                        }
-                        break;
-                    case "unmark":
-                        if (parts.length > 1 && !parts[1].isBlank()) {
-                            markCommand(parts[1], tasks, false, ui);
-                            storage.save(tasks);
-                        } else {
-                            throw new LunaException("Please provide a task number to unmark");
-                        }
-                        break;
-                    case "delete":
-                        if (parts.length > 1 && !parts[1].isBlank()) {
-                            int index;
-                            try {
-                                index = Integer.parseInt(parts[1]) - 1;
-                            } catch (NumberFormatException e) {
-                                throw new LunaException("Please give a valid task number to delete");
-                            }
-                            if (index < 0 || index >= tasks.size()) {
-                                throw new LunaException("Task index is out of bounds");
-                            }
-                            Task removed = tasks.remove(index);
-                            ui.showTaskDeleted(removed, tasks.size());
-                            storage.save(tasks);
-                        } else {
-                            throw new LunaException("Please give a task number to delete");
-                        }
-                        break;
-                    case "todo":
-                        Task todo = new ToDoTask(parts.length > 1 ? parts[1] : "");
-                        tasks.add(todo);
-                        ui.showTaskAdded(todo, tasks.size());
-                        storage.save(tasks);
-                        break;
-                    case "deadline":
-                        Task deadline = new DeadlineTask(parts.length > 1 ? parts[1] : "");
-                        tasks.add(deadline);
-                        ui.showTaskAdded(deadline, tasks.size());
-                        storage.save(tasks);
-                        break;
-                    case "event":
-                        Task event = new EventTask(parts.length > 1 ? parts[1] : "");
-                        tasks.add(event);
-                        ui.showTaskAdded(event, tasks.size());
-                        storage.save(tasks);
-                        break;
-                    default:
-                        throw new LunaException("Sorry! I dont gets");
-                    }
                 }
+                
+                executeCommand(parsedCommand, tasks, ui, storage);
             } catch (LunaException e) {
                 ui.showError(e.getMessage());
             }
@@ -112,5 +55,65 @@ public class Luna {
         } else {
             ui.showTaskUnmarked(tasks.get(index));
         }
+    }
+
+    /**
+     * Executes the given parsed command
+     */
+    private static void executeCommand(ParsedCommand parsedCommand, ArrayList<Task> tasks, Ui ui, Storage storage) throws LunaException {
+        switch (parsedCommand.getCommandType()) {
+        case "list":
+            ui.showTaskList(tasks);
+            break;
+        case "mark":
+            markCommand(parsedCommand.getArguments(), tasks, true, ui);
+            storage.save(tasks);
+            break;
+        case "unmark":
+            markCommand(parsedCommand.getArguments(), tasks, false, ui);
+            storage.save(tasks);
+            break;
+        case "delete":
+            deleteCommand(parsedCommand.getArguments(), tasks, ui);
+            storage.save(tasks);
+            break;
+        case "todo":
+            Task todo = new ToDoTask(parsedCommand.getArguments());
+            tasks.add(todo);
+            ui.showTaskAdded(todo, tasks.size());
+            storage.save(tasks);
+            break;
+        case "deadline":
+            Task deadline = new DeadlineTask(parsedCommand.getArguments());
+            tasks.add(deadline);
+            ui.showTaskAdded(deadline, tasks.size());
+            storage.save(tasks);
+            break;
+        case "event":
+            Task event = new EventTask(parsedCommand.getArguments());
+            tasks.add(event);
+            ui.showTaskAdded(event, tasks.size());
+            storage.save(tasks);
+            break;
+        default:
+            throw new LunaException("Unknown command type");
+        }
+    }
+
+    /**
+     * Deletes a task from the task list
+     */
+    private static void deleteCommand(String indexStr, ArrayList<Task> tasks, Ui ui) throws LunaException {
+        int index;
+        try {
+            index = Integer.parseInt(indexStr) - 1;
+        } catch (NumberFormatException e) {
+            throw new LunaException("Please give a valid task number to delete");
+        }
+        if (index < 0 || index >= tasks.size()) {
+            throw new LunaException("Task index is out of bounds");
+        }
+        Task removed = tasks.remove(index);
+        ui.showTaskDeleted(removed, tasks.size());
     }
 }

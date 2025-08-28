@@ -30,15 +30,38 @@ public class EventTask extends ToDoTask {
     private static String parseStartTime(String input) {
         int fromIdx = input.indexOf(" /from ");
         int toIdx = input.indexOf(" /to ");
-        if (fromIdx == -1 || toIdx == -1 || toIdx < fromIdx || toIdx <= fromIdx + 7) {
+        
+        if (fromIdx == -1) {
             return "";
         }
-        return input.substring(fromIdx + 7, toIdx);
+        
+        // If no " /to " found, check if it ends with " /to"
+        if (toIdx == -1) {
+            if (input.endsWith(" /to")) {
+                toIdx = input.length() - 4; // Position of " /to"
+            } else {
+                return "";
+            }
+        }
+        
+        if (toIdx < fromIdx || toIdx < fromIdx + 7) {
+            return "";
+        }
+        
+        String candidate = input.substring(fromIdx + 7, toIdx);
+        return candidate.trim();
     }
 
     private static String parseEndTime(String input) {
         int toIdx = input.indexOf(" /to ");
-        return toIdx == -1 ? "" : input.substring(toIdx + 5);
+        if (toIdx != -1) {
+            return input.substring(toIdx + 5).trim();
+        }
+        // Check if input ends with " /to" (without trailing space after trimming)
+        if (input.endsWith(" /to")) {
+            return "";
+        }
+        return "";
     }
 
     @Override
