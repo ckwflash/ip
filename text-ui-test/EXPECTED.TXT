@@ -18,8 +18,24 @@ Please provide end time for deadline with /by
 Please provide end time for deadline with /by
 
  The following task has been added:
-  [E] [ ] project meeting (from: Aug 6th 2pm to: 4pm)
+  [D] [ ] homework (by: Dec 02 2019, 6:00PM)
  Now you have 3 tasks in the list.
+
+ The following task has been added:
+  [D] [ ] project (by: Jan 15 2025)
+ Now you have 4 tasks in the list.
+
+ The following task has been added:
+  [D] [ ] meeting (by: Mar 15 2025, 2:30PM)
+ Now you have 5 tasks in the list.
+
+ The following task has been added:
+  [D] [ ] report (by: Oct 05 2024)
+ Now you have 6 tasks in the list.
+
+ The following task has been added:
+  [E] [ ] project meeting (from: Aug 6th 2pm to: 4pm)
+ Now you have 7 tasks in the list.
 
 Please provide start time and /from for event
 
@@ -33,11 +49,15 @@ Sorry! I dont gets
 
 1. [T] [ ] read book
 2. [D] [ ] return book (by: June 6th)
-3. [E] [ ] project meeting (from: Aug 6th 2pm to: 4pm)
+3. [D] [ ] homework (by: Dec 02 2019, 6:00PM)
+4. [D] [ ] project (by: Jan 15 2025)
+5. [D] [ ] meeting (by: Mar 15 2025, 2:30PM)
+6. [D] [ ] report (by: Oct 05 2024)
+7. [E] [ ] project meeting (from: Aug 6th 2pm to: 4pm)
 
 The following task has been removed:
   [D] [ ] return book (by: June 6th)
-Now you have 2 tasks in the list.
+Now you have 6 tasks in the list.
 
 Task index is out of bounds
 

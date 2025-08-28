@@ -22,6 +22,12 @@ fi
 # run the program, feed commands from input.txt file and redirect the output to the ACTUAL.TXT
 java -classpath ../bin Luna < input.txt > ACTUAL.TXT
 
+# clean up data folder created during test
+if [ -d "./data" ]
+then
+    rm -rf ./data
+fi
+
 # convert to UNIX format
 # cp EXPECTED.TXT EXPECTED-UNIX.TXT
 # dos2unix ACTUAL.TXT EXPECTED-UNIX.TXT
@@ -31,8 +37,18 @@ diff ACTUAL.TXT EXPECTED.TXT
 if [ $? -eq 0 ]
 then
     echo "Test result: PASSED"
+    # clean up data folder from parent directory as well
+    if [ -d "../data" ]
+    then
+        rm -rf ../data
+    fi
     exit 0
 else
     echo "Test result: FAILED"
+    # clean up data folder from parent directory as well
+    if [ -d "../data" ]
+    then
+        rm -rf ../data
+    fi
     exit 1
 fi

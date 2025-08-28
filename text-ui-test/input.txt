@@ -3,6 +3,10 @@ todo
 deadline return book /by June 6th
 deadline return book
 deadline /by June 6th
+deadline homework /by 2019-12-02 1800
+deadline project /by 2025-01-15
+deadline meeting /by 15/3/2025 1430
+deadline report /by 5/10/2024
 event project meeting /from Aug 6th 2pm /to 4pm
 event project meeting /from /to 4pm
 event project meeting /from Aug 6th 2pm /to 
