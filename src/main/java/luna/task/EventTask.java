@@ -1,3 +1,6 @@
+package luna.task;
+import luna.exception.LunaException;
+
 /**
  * Represents an event task with a start and end time.
  */

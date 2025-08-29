@@ -1,3 +1,4 @@
+package luna.exception;
 /**
  * Custom exception for Luna
  */

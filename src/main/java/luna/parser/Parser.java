@@ -1,3 +1,7 @@
+package luna.parser;
+
+import luna.exception.LunaException;
+
 /**
  * Deals with making sense of the user command
  */
@@ -56,30 +60,5 @@ public class Parser {
         default:
             throw new LunaException("Sorry! I dont gets");
         }
-    }
-}
-
-/**
- * Simple data structure to hold parsed command information
- */
-class ParsedCommand {
-    private String commandType;
-    private String arguments;
-
-    public ParsedCommand(String commandType, String arguments) {
-        this.commandType = commandType;
-        this.arguments = arguments;
-    }
-
-    public String getCommandType() {
-        return commandType;
-    }
-
-    public String getArguments() {
-        return arguments;
-    }
-
-    public boolean isExit() {
-        return commandType.equals("bye");
     }
 }

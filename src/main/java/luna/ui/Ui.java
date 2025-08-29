@@ -1,5 +1,8 @@
+package luna.ui;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import luna.task.Task;
 
 /**
  * Deals with interactions with the user

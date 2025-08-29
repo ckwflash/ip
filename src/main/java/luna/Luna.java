@@ -1,10 +1,22 @@
+package luna;
 import java.util.ArrayList;
+
+import luna.exception.LunaException;
+import luna.parser.ParsedCommand;
+import luna.parser.Parser;
+import luna.storage.Storage;
+import luna.task.DeadlineTask;
+import luna.task.EventTask;
+import luna.task.Task;
+import luna.task.TaskList;
+import luna.task.ToDoTask;
+import luna.ui.Ui;
 
 /**
  * Application entry point
  */
 public class Luna {
-    private static final String DATA_FILE_PATH = "./data/duke.txt";
+    private static final String DATA_FILE_PATH = "./data/luna.txt";
     public static void main(String[] args) {
         TaskList tasks = new TaskList();
         Ui ui = new Ui();

@@ -1,3 +1,6 @@
+package luna.task;
+import luna.exception.LunaException;
+
 /**
  * Represents a to-do task with a description and task type.
  */

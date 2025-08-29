@@ -13,14 +13,14 @@ then
 fi
 
 # compile the code into the bin folder, terminates if error occurred
-if ! javac --release 17 -cp ../src/main/java -Xlint:none -d ../bin ../src/main/java/*.java
+if ! javac --release 17 -cp ../src/main/java -Xlint:none -d ../bin ../src/main/java/luna/**/*.java ../src/main/java/luna/*.java
 then
     echo "********** BUILD FAILURE **********"
     exit 1
 fi
 
 # run the program, feed commands from input.txt file and redirect the output to the ACTUAL.TXT
-java -classpath ../bin Luna < input.txt > ACTUAL.TXT
+java -classpath ../bin luna.Luna < input.txt > ACTUAL.TXT
 
 # clean up data folder created during test
 if [ -d "./data" ]
