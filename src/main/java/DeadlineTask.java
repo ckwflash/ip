@@ -37,7 +37,7 @@ public class DeadlineTask extends ToDoTask {
     }
 
     /**
-     * Parses date and time from string. 
+     * Parses date and time from string.
      * Sets either endDateTime (with time) or endDate (date only).
      */
     private void parseDateTime(String dateTimeStr) {
@@ -47,7 +47,6 @@ public class DeadlineTask extends ToDoTask {
         }
 
         String trimmed = dateTimeStr.trim();
-        
         try {
             // Try to parse already formatted dates (for loading from file)
             // Format: "MMM dd yyyy, h:mma" (e.g., "Dec 02 2019, 6:00PM")
@@ -56,46 +55,39 @@ public class DeadlineTask extends ToDoTask {
                 this.hasTime = true;
                 return;
             }
-            
             // Format: "MMM dd yyyy" (e.g., "Dec 02 2019")
             if (trimmed.matches("\\w{3} \\d{2} \\d{4}")) {
                 this.endDate = LocalDate.parse(trimmed, DateTimeFormatter.ofPattern("MMM dd yyyy"));
                 this.hasTime = false;
                 return;
             }
-            
             // Try yyyy-mm-dd HHmm (e.g., 2019-12-02 1800)
             if (trimmed.matches("\\d{4}-\\d{2}-\\d{2} \\d{4}")) {
                 this.endDateTime = LocalDateTime.parse(trimmed, DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));
                 this.hasTime = true;
                 return;
             }
-            
             // Try d/M/yyyy HHmm (e.g., 2/12/2019 1800)
             if (trimmed.matches("\\d{1,2}/\\d{1,2}/\\d{4} \\d{4}")) {
                 this.endDateTime = LocalDateTime.parse(trimmed, DateTimeFormatter.ofPattern("d/M/yyyy HHmm"));
                 this.hasTime = true;
                 return;
             }
-            
             // Try yyyy-mm-dd (date only)
             if (trimmed.matches("\\d{4}-\\d{2}-\\d{2}")) {
                 this.endDate = LocalDate.parse(trimmed, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
                 this.hasTime = false;
                 return;
             }
-            
             // Try d/M/yyyy (date only)
             if (trimmed.matches("\\d{1,2}/\\d{1,2}/\\d{4}")) {
                 this.endDate = LocalDate.parse(trimmed, DateTimeFormatter.ofPattern("d/M/yyyy"));
                 this.hasTime = false;
                 return;
             }
-            
         } catch (DateTimeParseException e) {
             // Fall back to treating as plain text
         }
-        
         // Could not parse as date/time, keep as original text
         this.hasTime = false;
     }

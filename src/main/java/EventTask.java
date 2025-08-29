@@ -30,11 +30,9 @@ public class EventTask extends ToDoTask {
     private static String parseStartTime(String input) {
         int fromIdx = input.indexOf(" /from ");
         int toIdx = input.indexOf(" /to ");
-        
         if (fromIdx == -1) {
             return "";
         }
-        
         // If no " /to " found, check if it ends with " /to"
         if (toIdx == -1) {
             if (input.endsWith(" /to")) {
@@ -43,11 +41,9 @@ public class EventTask extends ToDoTask {
                 return "";
             }
         }
-        
         if (toIdx < fromIdx || toIdx < fromIdx + 7) {
             return "";
         }
-        
         String candidate = input.substring(fromIdx + 7, toIdx);
         return candidate.trim();
     }

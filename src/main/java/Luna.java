@@ -5,7 +5,6 @@ import java.util.ArrayList;
  */
 public class Luna {
     private static final String DATA_FILE_PATH = "./data/duke.txt";
-    
     public static void main(String[] args) {
         TaskList tasks = new TaskList();
         Ui ui = new Ui();
@@ -22,11 +21,9 @@ public class Luna {
             try {
                 input = ui.readCommand();
                 ParsedCommand parsedCommand = Parser.parse(input);
-                
                 if (parsedCommand.isExit()) {
                     break;
                 }
-                
                 executeCommand(parsedCommand, tasks, ui, storage);
             } catch (LunaException e) {
                 ui.showError(e.getMessage());
@@ -58,7 +55,8 @@ public class Luna {
     /**
      * Executes the given parsed command
      */
-    private static void executeCommand(ParsedCommand parsedCommand, TaskList tasks, Ui ui, Storage storage) throws LunaException {
+    private static void executeCommand(ParsedCommand parsedCommand, TaskList tasks,
+        Ui ui, Storage storage) throws LunaException {
         switch (parsedCommand.getCommandType()) {
         case "list":
             ui.showTaskList(tasks.getTasks());
