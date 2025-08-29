@@ -8,7 +8,7 @@ public class ParsedCommand {
     private String arguments;
 
     /**
-     * Constructs a ParsedCommand with the specified command type and arguments.
+     * Constructs a ParsedCommand with the specified command type and arguments
      */
     public ParsedCommand(String commandType, String arguments) {
         this.commandType = commandType;
