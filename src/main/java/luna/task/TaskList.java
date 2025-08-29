@@ -63,7 +63,7 @@ public class TaskList {
     }
 
     /**
-     * Deletes a task at the given index
+     * Delete a task at the given index
      */
     public Task deleteTask(int index) throws LunaException {
         if (index < 0 || index >= tasks.size()) {
