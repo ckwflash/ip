@@ -8,7 +8,7 @@ public class Task {
     protected boolean isDone;
 
     /**
-     * Task with the specified description and sets its status to not done.
+     * Task with the specified description and sets its status to not done
     */
     public Task(String description) {
         this.description = description;
