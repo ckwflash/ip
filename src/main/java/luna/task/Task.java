@@ -18,6 +18,11 @@ public class Task {
     public void markDone(boolean status) {
         this.isDone = status;
     }
+
+    public boolean isDone() {
+        return this.isDone;
+    }
+
     public String getStatusIcon() {
         return (isDone ? "X" : " ");
     }
