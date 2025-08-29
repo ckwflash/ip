@@ -103,6 +103,9 @@ public class Luna {
             ui.showTaskAdded(event, tasks.size());
             storage.save(tasks.getTasks());
             break;
+        case "find":
+            findCommand(parsedCommand.getArguments(), tasks, ui);
+            break;
         default:
             throw new LunaException("Unknown command type");
         }
@@ -120,5 +123,13 @@ public class Luna {
         }
         Task removed = tasks.deleteTask(index);
         ui.showTaskDeleted(removed, tasks.size());
+    }
+
+    /**
+     * Finds tasks that contain the given keyword
+     */
+    private static void findCommand(String keyword, TaskList tasks, Ui ui) {
+        ArrayList<Task> matchingTasks = tasks.findTasks(keyword);
+        ui.showSearchResults(matchingTasks);
     }
 }

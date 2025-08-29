@@ -71,4 +71,17 @@ public class TaskList {
         }
         return tasks.remove(index);
     }
+
+    /**
+     * Finds tasks that contain the given keyword in their description
+     */
+    public ArrayList<Task> findTasks(String keyword) {
+        ArrayList<Task> matchingTasks = new ArrayList<>();
+        for (Task task : tasks) {
+            if (task.description.toLowerCase().contains(keyword.toLowerCase())) {
+                matchingTasks.add(task);
+            }
+        }
+        return matchingTasks;
+    }
 }

@@ -57,6 +57,12 @@ public class Parser {
         case "event":
             return new ParsedCommand("event", arguments);
 
+        case "find":
+            if (arguments.isBlank()) {
+                throw new LunaException("Please provide a keyword to search for");
+            }
+            return new ParsedCommand("find", arguments);
+
         default:
             throw new LunaException("Sorry! I dont gets");
         }
