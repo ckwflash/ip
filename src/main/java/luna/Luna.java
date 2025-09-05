@@ -36,7 +36,7 @@ public class Luna {
     public String getResponse(String input) {
         try {
             Ui ui = new Ui(true); // true for capture mode
-            
+
             ParsedCommand parsedCommand = Parser.parse(input);
             if (parsedCommand.isExit()) {
                 ui.showGoodbye();
