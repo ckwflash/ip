@@ -13,37 +13,42 @@ import luna.task.ToDoTask;
 import luna.ui.Ui;
 
 /**
- * Application entry point
+ * Application entry point and main logic handler
  */
 public class Luna {
     private static final String DATA_FILE_PATH = "./data/luna.txt";
-    public static void main(String[] args) {
-        TaskList tasks = new TaskList();
-        Ui ui = new Ui();
-        Storage storage = new Storage(DATA_FILE_PATH);
+    private TaskList tasks;
+    private Storage storage;
 
-        // Load tasks from file at startup
+    /**
+     * Constructor for GUI and instance usage
+     */
+    public Luna() {
+        this.storage = new Storage(DATA_FILE_PATH);
         ArrayList<Task> loadedTasks = storage.load();
-        tasks = new TaskList(loadedTasks);
+        this.tasks = new TaskList(loadedTasks);
+    }
 
-        ui.showWelcome();
+    /**
+     * Processes a command and returns the response as a string
+     * Used for GUI integration
+     */
+    public String getResponse(String input) {
+        try {
+            Ui ui = new Ui(true); // true for capture mode
 
-        String input = "";
-        while (ui.hasMoreInput()) {
-            try {
-                input = ui.readCommand();
-                ParsedCommand parsedCommand = Parser.parse(input);
-                if (parsedCommand.isExit()) {
-                    break;
-                }
-                executeCommand(parsedCommand, tasks, ui, storage);
-            } catch (LunaException e) {
-                ui.showError(e.getMessage());
+            ParsedCommand parsedCommand = Parser.parse(input);
+            if (parsedCommand.isExit()) {
+                ui.showGoodbye();
+                return ui.getOutput();
             }
-        }
 
-        ui.showGoodbye();
-        ui.close();
+            executeCommand(parsedCommand, tasks, ui, storage);
+            return ui.getOutput();
+
+        } catch (LunaException e) {
+            return "Error: " + e.getMessage();
+        }
     }
 
     /**
