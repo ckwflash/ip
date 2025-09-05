@@ -9,9 +9,45 @@ import luna.task.Task;
  */
 public class Ui {
     private Scanner scanner;
+    private StringBuilder output;
+    private boolean captureMode;
 
+    /**
+     * Default constructor for console mode
+     */
     public Ui() {
         this.scanner = new Scanner(System.in);
+        this.output = new StringBuilder();
+        this.captureMode = false;
+    }
+
+    /**
+     * Constructor for string capture mode (used by GUI)
+     */
+    public Ui(boolean captureMode) {
+        this.scanner = null;
+        this.output = new StringBuilder();
+        this.captureMode = captureMode;
+    }
+
+    /**
+     * Helper method to either print or capture output
+     */
+    private void addOutput(String text) {
+        if (captureMode) {
+            output.append(text);
+        } else {
+            System.out.print(text);
+        }
+    }
+
+    /**
+     * Gets the captured output and clears the buffer
+     */
+    public String getOutput() {
+        String result = output.toString().trim();
+        output.setLength(0);
+        return result;
     }
 
     /**
@@ -23,7 +59,7 @@ public class Ui {
                 + " Hello, nice to meet you! I'm Luna\n"
                 + " What can I do for you?\n"
                 + "____________________________________________________________\n";
-        System.out.println(intro);
+        addOutput(intro);
     }
 
     /**
@@ -34,7 +70,7 @@ public class Ui {
             "____________________________________________________________\n"
                 + " Goodbye! Hope to see you again\n"
                 + "____________________________________________________________\n";
-        System.out.println(goodbye);
+        addOutput(goodbye);
     }
 
     /**
@@ -55,56 +91,69 @@ public class Ui {
      * Shows an error message to the user
      */
     public void showError(String message) {
-        System.out.println(message);
-        System.out.println();
+        addOutput(message + "\n\n");
     }
 
     /**
      * Shows the list of tasks to the user
      */
     public void showTaskList(ArrayList<Task> tasks) {
-        for (int i = 0; i < tasks.size(); i++) {
-            System.out.println((i + 1) + ". " + tasks.get(i).taskView());
+        if (tasks.isEmpty()) {
+            addOutput("No tasks in your list yet!");
+        } else {
+            for (int i = 0; i < tasks.size(); i++) {
+                addOutput((i + 1) + ". " + tasks.get(i).taskView() + "\n");
+            }
         }
-        System.out.println();
+        if (!captureMode) {
+            addOutput("\n");
+        }
     }
 
     /**
      * Shows a message when a task is added
      */
     public void showTaskAdded(Task task, int totalTasks) {
-        System.out.println(" The following task has been added:");
-        System.out.println("  " + task.taskView());
-        System.out.println(" Now you have " + totalTasks + " tasks in the list.");
-        System.out.println();
+        addOutput(" The following task has been added:\n");
+        addOutput("  " + task.taskView() + "\n");
+        addOutput(" Now you have " + totalTasks + " tasks in the list.");
+        if (!captureMode) {
+            addOutput("\n\n");
+        }
     }
 
     /**
      * Shows a message when a task is marked as done
      */
     public void showTaskMarked(Task task) {
-        System.out.println("Nice! This task has been marked as done:");
-        System.out.println("  " + task.taskView());
-        System.out.println();
+        addOutput("Nice! This task has been marked as done:\n");
+        addOutput("  " + task.taskView());
+        if (!captureMode) {
+            addOutput("\n\n");
+        }
     }
 
     /**
      * Shows a message when a task is unmarked
      */
     public void showTaskUnmarked(Task task) {
-        System.out.println("OK, This task has been marked as not done yet:");
-        System.out.println("  " + task.taskView());
-        System.out.println();
+        addOutput("OK, This task has been marked as not done yet:\n");
+        addOutput("  " + task.taskView());
+        if (!captureMode) {
+            addOutput("\n\n");
+        }
     }
 
     /**
      * Shows a message when a task is deleted
      */
     public void showTaskDeleted(Task task, int totalTasks) {
-        System.out.println("The following task has been removed:");
-        System.out.println("  " + task.taskView());
-        System.out.println("Now you have " + totalTasks + " tasks in the list.");
-        System.out.println();
+        addOutput("The following task has been removed:\n");
+        addOutput("  " + task.taskView() + "\n");
+        addOutput("Now you have " + totalTasks + " tasks in the list.");
+        if (!captureMode) {
+            addOutput("\n\n");
+        }
     }
 
     /**
@@ -112,14 +161,16 @@ public class Ui {
      */
     public void showSearchResults(ArrayList<Task> matchingTasks) {
         if (matchingTasks.isEmpty()) {
-            System.out.println("No matching tasks found.");
+            addOutput("No matching tasks found.");
         } else {
-            System.out.println("Here are the matching tasks in your list:");
+            addOutput("Here are the matching tasks in your list:\n");
             for (int i = 0; i < matchingTasks.size(); i++) {
-                System.out.println(" " + (i + 1) + "." + matchingTasks.get(i).taskView());
+                addOutput(" " + (i + 1) + "." + matchingTasks.get(i).taskView() + "\n");
             }
         }
-        System.out.println();
+        if (!captureMode) {
+            addOutput("\n");
+        }
     }
 
     /**
