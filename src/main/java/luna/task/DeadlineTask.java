@@ -141,6 +141,20 @@ public class DeadlineTask extends ToDoTask {
     }
 
     @Override
+<<<<<<< HEAD
+    public String toString() {
+        if (hasTime && endDateTime != null) {
+            // Format with time: "MMM dd yyyy, h:mma" (e.g., "Dec 02 2019, 6:00PM")
+            String formattedDate = endDateTime.format(DateTimeFormatter.ofPattern("MMM dd yyyy, h:mma"));
+            return super.toString() + " (by: " + formattedDate + ")";
+        } else if (!hasTime && endDate != null) {
+            // Format date only: "MMM dd yyyy" (e.g., "Dec 02 2019")
+            String formattedDate = endDate.format(DateTimeFormatter.ofPattern("MMM dd yyyy"));
+            return super.toString() + " (by: " + formattedDate + ")";
+        } else {
+            // Fall back to original string if parsing failed
+            return super.toString() + " (by: " + originalEndTime + ")";
+=======
     public String taskView() {
         assert originalEndTime != null : "Original end time should not be null";
         
@@ -169,6 +183,7 @@ public class DeadlineTask extends ToDoTask {
             assert result.contains("(by: ") : "Task view should contain deadline indicator";
             assert result.contains(originalEndTime) : "Task view should contain original end time";
             return result;
+>>>>>>> master
         }
     }
 }

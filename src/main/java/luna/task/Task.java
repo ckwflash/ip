@@ -39,6 +39,10 @@ public class Task {
         assert icon.equals("X") || icon.equals(" ") : "Status icon should be either 'X' or ' '";
         return icon;
     }
+<<<<<<< HEAD
+    public String toString() {
+        return String.format("[%s] %s", this.getStatusIcon(), description);
+=======
 
     /**
      * Returns the string representation of the task for display
@@ -49,5 +53,6 @@ public class Task {
         assert view != null : "Task view should never be null";
         assert view.contains(description) : "Task view should contain the description";
         return view;
+>>>>>>> master
     }
 }

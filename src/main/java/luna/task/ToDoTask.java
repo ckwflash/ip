@@ -26,6 +26,10 @@ public class ToDoTask extends Task {
     }
 
     @Override
+<<<<<<< HEAD
+    public String toString() {
+        return "[" + taskType + "] " + super.toString();
+=======
     public String taskView() {
         assert taskType != null : "Task type should not be null";
         assert taskType.length() == 1 : "Task type should be a single character";
@@ -40,5 +44,6 @@ public class ToDoTask extends Task {
         assert view.startsWith("[" + taskType + "]") : "Task view should start with task type in brackets";
 
         return view;
+>>>>>>> master
     }
 }
