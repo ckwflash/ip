@@ -64,7 +64,7 @@ public class EventTask extends ToDoTask {
     }
 
     @Override
-    public String taskView() {
-        return super.taskView() + " (from: " + startTime + " to: " + endTime + ")";
+    public String toString() {
+        return super.toString() + " (from: " + startTime + " to: " + endTime + ")";
     }
 }

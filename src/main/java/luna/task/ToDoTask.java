@@ -20,7 +20,7 @@ public class ToDoTask extends Task {
     }
 
     @Override
-    public String taskView() {
-        return "[" + taskType + "] " + super.taskView();
+    public String toString() {
+        return "[" + taskType + "] " + super.toString();
     }
 }

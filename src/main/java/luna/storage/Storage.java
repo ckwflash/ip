@@ -1,4 +1,5 @@
 package luna.storage;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -64,7 +65,7 @@ public class Storage {
 
             FileWriter writer = new FileWriter(filePath);
             for (Task task : tasks) {
-                writer.write(task.taskView() + "\n");
+                writer.write(task.toString() + "\n");
             }
             writer.close();
         } catch (IOException e) {
@@ -73,7 +74,7 @@ public class Storage {
     }
 
     /**
-     * Parses a task from taskView format stored in file
+     * Parses a task from toString format stored in file
      */
     private static Task parseTaskFromFile(String line) {
         if (line == null || line.trim().isEmpty()) {
