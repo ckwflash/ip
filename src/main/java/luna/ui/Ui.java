@@ -28,12 +28,22 @@ public class Ui {
         this.scanner = null;
         this.output = new StringBuilder();
         this.captureMode = captureMode;
+
+        assert this.output != null : "Output buffer should be initialized";
+        assert this.captureMode == captureMode : "Capture mode should be set correctly";
+
+        if (captureMode) {
+            assert this.scanner == null : "Scanner should be null in capture mode";
+        }
     }
 
     /**
      * Helper method to either print or capture output
      */
     private void addOutput(String text) {
+        assert text != null : "Output text should not be null";
+        assert output != null : "Output buffer should not be null";
+
         if (captureMode) {
             output.append(text);
         } else {
@@ -45,8 +55,15 @@ public class Ui {
      * Gets the captured output and clears the buffer
      */
     public String getOutput() {
+        assert captureMode : "getOutput should only be called in capture mode";
+        assert output != null : "Output buffer should not be null";
+
         String result = output.toString().trim();
+        assert result != null : "Result should not be null";
+
         output.setLength(0);
+        assert output.length() == 0 : "Output buffer should be cleared";
+
         return result;
     }
 
