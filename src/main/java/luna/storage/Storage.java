@@ -1,4 +1,5 @@
 package luna.storage;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -93,9 +94,9 @@ public class Storage {
             
             for (Task task : tasks) {
                 assert task != null : "Task in list should not be null";
-                String taskView = task.taskView();
-                assert taskView != null : "Task view should not be null";
-                writer.write(taskView + "\n");
+                String toString = task.toString();
+                assert toString != null : "Task view should not be null";
+                writer.write(toString + "\n");
             }
             writer.close();
         } catch (IOException e) {
@@ -104,7 +105,7 @@ public class Storage {
     }
 
     /**
-     * Parses a task from taskView format stored in file
+     * Parses a task from toString format stored in file
      */
     private static Task parseTaskFromFile(String line) {
         if (line == null || line.trim().isEmpty()) {

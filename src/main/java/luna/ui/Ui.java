@@ -119,7 +119,7 @@ public class Ui {
             addOutput("No tasks in your list yet!");
         } else {
             for (int i = 0; i < tasks.size(); i++) {
-                addOutput((i + 1) + ". " + tasks.get(i).taskView() + "\n");
+                addOutput((i + 1) + ". " + tasks.get(i).toString() + "\n");
             }
         }
         if (!captureMode) {
@@ -132,7 +132,7 @@ public class Ui {
      */
     public void showTaskAdded(Task task, int totalTasks) {
         addOutput(" The following task has been added:\n");
-        addOutput("  " + task.taskView() + "\n");
+        addOutput("  " + task.toString() + "\n");
         addOutput(" Now you have " + totalTasks + " tasks in the list.");
         if (!captureMode) {
             addOutput("\n\n");
@@ -144,7 +144,7 @@ public class Ui {
      */
     public void showTaskMarked(Task task) {
         addOutput("Nice! This task has been marked as done:\n");
-        addOutput("  " + task.taskView());
+        addOutput("  " + task.toString());
         if (!captureMode) {
             addOutput("\n\n");
         }
@@ -155,7 +155,7 @@ public class Ui {
      */
     public void showTaskUnmarked(Task task) {
         addOutput("OK, This task has been marked as not done yet:\n");
-        addOutput("  " + task.taskView());
+        addOutput("  " + task.toString());
         if (!captureMode) {
             addOutput("\n\n");
         }
@@ -166,7 +166,7 @@ public class Ui {
      */
     public void showTaskDeleted(Task task, int totalTasks) {
         addOutput("The following task has been removed:\n");
-        addOutput("  " + task.taskView() + "\n");
+        addOutput("  " + task.toString() + "\n");
         addOutput("Now you have " + totalTasks + " tasks in the list.");
         if (!captureMode) {
             addOutput("\n\n");
@@ -182,7 +182,7 @@ public class Ui {
         } else {
             addOutput("Here are the matching tasks in your list:\n");
             for (int i = 0; i < matchingTasks.size(); i++) {
-                addOutput(" " + (i + 1) + "." + matchingTasks.get(i).taskView() + "\n");
+                addOutput(" " + (i + 1) + "." + matchingTasks.get(i).toString() + "\n");
             }
         }
         if (!captureMode) {
