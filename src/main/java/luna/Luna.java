@@ -23,6 +23,9 @@ public class Luna {
     // Undo functionality - simple single-level undo
     private TaskList previousTaskState;
     private String lastCommand;
+    
+    // Exit flag for GUI
+    private boolean shouldExit = false;
 
     /**
      * Constructor for GUI and instance usage
@@ -68,6 +71,7 @@ public class Luna {
 
             if (parsedCommand.isExit()) {
                 ui.showGoodbye();
+                this.shouldExit = true; // Set flag to indicate application should close
                 String output = ui.getOutput();
                 assert output != null : "UI output should never be null";
                 return output;
@@ -82,6 +86,13 @@ public class Luna {
             assert e.getMessage() != null : "LunaException should have a non-null message";
             return "Error: " + e.getMessage();
         }
+    }
+
+    /**
+     * Checks if the application should exit after the last command
+     */
+    public boolean shouldExit() {
+        return shouldExit;
     }
 
     /**

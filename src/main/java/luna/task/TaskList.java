@@ -103,14 +103,14 @@ public class TaskList {
      */
     public void markTask(int index, boolean isDone) throws LunaException {
         assert tasks != null : "Tasks list should not be null";
-        
+
         if (index < 0 || index >= tasks.size()) {
             throw new LunaException("Task index is out of bounds");
         }
-        
+
         Task task = tasks.get(index);
         assert task != null : "Task at valid index should not be null";
-        
+
         boolean oldStatus = task.isDone();
         task.markDone(isDone);
         
@@ -123,7 +123,7 @@ public class TaskList {
      */
     public Task deleteTask(int index) throws LunaException {
         assert tasks != null : "Tasks list should not be null";
-        
+
         if (index < 0 || index >= tasks.size()) {
             throw new LunaException("Task index is out of bounds");
         }
