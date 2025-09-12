@@ -19,11 +19,11 @@ public class Luna {
     private static final String DATA_FILE_PATH = "./data/luna.txt";
     private TaskList tasks;
     private Storage storage;
-    
+
     // Undo functionality - simple single-level undo
     private TaskList previousTaskState;
     private String lastCommand;
-    
+
     // Exit flag for GUI
     private boolean shouldExit = false;
 
@@ -260,9 +260,9 @@ public class Luna {
     private boolean isModifyingCommand(String commandType) {
         assert commandType != null : "Command type should not be null";
 
-        return commandType.equals("mark") || commandType.equals("unmark") ||
-               commandType.equals("delete") || commandType.equals("todo") ||
-               commandType.equals("deadline") || commandType.equals("event");
+        return commandType.equals("mark") || commandType.equals("unmark")
+            || commandType.equals("delete") || commandType.equals("todo")
+            || commandType.equals("deadline") || commandType.equals("event");
     }
 
     /**

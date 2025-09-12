@@ -50,7 +50,7 @@ public class MainWindow extends AnchorPane {
                 DialogBox.getLunaDialog(response, lunaImage)
         );
         userInput.clear();
-        
+
         // Check if the application should exit after processing the command
         if (luna.shouldExit()) {
             Platform.exit(); // Close the JavaFX application
