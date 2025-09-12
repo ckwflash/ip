@@ -26,10 +26,10 @@ public class Luna {
     public Luna() {
         this.storage = new Storage(DATA_FILE_PATH);
         assert storage != null : "Storage should be successfully initialized";
-        
+
         ArrayList<Task> loadedTasks = storage.load();
         assert loadedTasks != null : "Storage.load() should never return null, even for empty lists";
-        
+
         this.tasks = new TaskList(loadedTasks);
         assert tasks != null : "TaskList should be successfully initialized";
     }
@@ -73,20 +73,20 @@ public class Luna {
         assert indexStr != null : "Index string should not be null";
         assert tasks != null : "TaskList should not be null";
         assert ui != null : "Ui should not be null";
-        
+
         int index;
         try {
             index = Integer.parseInt(indexStr) - 1;
         } catch (NumberFormatException e) {
             throw new LunaException("Please give a valid task number");
         }
-        
+
         assert index >= -1 : "Parsed index should be at least -1 (which will fail bounds check)";
-        
+
         tasks.markTask(index, markDone);
         Task task = tasks.get(index);
         assert task != null : "Task should exist after successful marking";
-        
+
         if (markDone) {
             assert task.isDone() : "Task should be marked as done after marking";
             ui.showTaskMarked(task);
@@ -106,9 +106,9 @@ public class Luna {
         assert ui != null : "Ui should not be null";
         assert storage != null : "Storage should not be null";
         assert parsedCommand.getCommandType() != null : "Command type should not be null";
-        
+
         int initialTaskCount = tasks.size();
-        
+
         switch (parsedCommand.getCommandType()) {
         case "list":
             ui.showTaskList(tasks.getTasks());
@@ -169,19 +169,19 @@ public class Luna {
         assert indexStr != null : "Index string should not be null";
         assert tasks != null : "TaskList should not be null";
         assert ui != null : "Ui should not be null";
-        
+
         int index;
         try {
             index = Integer.parseInt(indexStr) - 1;
         } catch (NumberFormatException e) {
             throw new LunaException("Please give a valid task number to delete");
         }
-        
+
         assert index >= -1 : "Parsed index should be at least -1 (which will fail bounds check)";
-        
+
         Task removed = tasks.deleteTask(index);
         assert removed != null : "Deleted task should not be null";
-        
+
         ui.showTaskDeleted(removed, tasks.size());
     }
 
@@ -192,10 +192,10 @@ public class Luna {
         assert keyword != null : "Search keyword should not be null";
         assert tasks != null : "TaskList should not be null";
         assert ui != null : "Ui should not be null";
-        
+
         ArrayList<Task> matchingTasks = tasks.findTasks(keyword);
         assert matchingTasks != null : "findTasks should never return null, even for empty results";
-        
+
         ui.showSearchResults(matchingTasks);
     }
 }
