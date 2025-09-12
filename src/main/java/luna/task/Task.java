@@ -3,7 +3,7 @@ package luna.task;
  * Task with a description and completion status.
  */
 
-public class Task {
+public abstract class Task {
     protected String description;
     protected boolean isDone;
 
@@ -50,4 +50,9 @@ public class Task {
         assert view.contains(description) : "Task view should contain the description";
         return view;
     }
+
+    /**
+     * Creates a copy of this task with the same properties
+     */
+    public abstract Task copy();
 }

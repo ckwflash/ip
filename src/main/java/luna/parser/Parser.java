@@ -83,6 +83,9 @@ public class Parser {
             assert !arguments.isBlank() : "Arguments should not be blank after validation";
             return new ParsedCommand("find", arguments);
 
+        case "undo":
+            return new ParsedCommand("undo", arguments);
+
         default:
             throw new LunaException("Sorry! I dont gets");
         }

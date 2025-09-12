@@ -25,6 +25,18 @@ public class TaskList {
         assert tasks != null : "Input tasks list should not be null";
         this.tasks = tasks;
         assert this.tasks == tasks : "Tasks list should be set correctly";
+    }    /**
+     * Copy constructor that creates a new TaskList with copies of all tasks
+     */
+    public TaskList(TaskList other) {
+        assert other != null : "Other TaskList should not be null";
+
+        this.tasks = new ArrayList<>();
+        for (Task task : other.tasks) {
+            this.tasks.add(task.copy()); // Create deep copy of each task
+        }
+
+        assert this.tasks.size() == other.tasks.size() : "Copied TaskList should have same size";
     }
 
     /**
@@ -91,14 +103,14 @@ public class TaskList {
      */
     public void markTask(int index, boolean isDone) throws LunaException {
         assert tasks != null : "Tasks list should not be null";
-        
+
         if (index < 0 || index >= tasks.size()) {
             throw new LunaException("Task index is out of bounds");
         }
-        
+
         Task task = tasks.get(index);
         assert task != null : "Task at valid index should not be null";
-        
+
         boolean oldStatus = task.isDone();
         task.markDone(isDone);
         
@@ -111,7 +123,7 @@ public class TaskList {
      */
     public Task deleteTask(int index) throws LunaException {
         assert tasks != null : "Tasks list should not be null";
-        
+
         if (index < 0 || index >= tasks.size()) {
             throw new LunaException("Task index is out of bounds");
         }
@@ -146,5 +158,12 @@ public class TaskList {
         assert matchingTasks.size() <= tasks.size() : "Matching tasks should not exceed total tasks";
         
         return matchingTasks;
+    }
+
+    /**
+     * Creates a deep copy of this TaskList for undo functionality
+     */
+    public TaskList copy() {
+        return new TaskList(this);
     }
 }
