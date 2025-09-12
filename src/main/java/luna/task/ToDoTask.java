@@ -41,4 +41,20 @@ public class ToDoTask extends Task {
 
         return view;
     }
+
+    /**
+     * Creates a copy of this ToDoTask
+     */
+    @Override
+    public Task copy() {
+        try {
+            ToDoTask copy = new ToDoTask(this.description);
+            copy.markDone(this.isDone);
+            copy.taskType = this.taskType;
+            return copy;
+        } catch (LunaException e) {
+            // This should not happen for valid existing tasks
+            throw new RuntimeException("Failed to copy ToDoTask", e);
+        }
+    }
 }

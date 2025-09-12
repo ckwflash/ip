@@ -191,6 +191,16 @@ public class Ui {
     }
 
     /**
+     * Shows undo success message
+     */
+    public void showUndoSuccess() {
+        addOutput("Undo successful! Reverted the last command.\n");
+        if (!captureMode) {
+            addOutput("\n");
+        }
+    }
+
+    /**
      * Closes the scanner
      */
     public void close() {

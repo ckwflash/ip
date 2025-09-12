@@ -171,4 +171,21 @@ public class DeadlineTask extends ToDoTask {
             return result;
         }
     }
+
+    /**
+     * Creates a copy of this DeadlineTask
+     */
+    @Override
+    public Task copy() {
+        try {
+            // Reconstruct the original input string
+            String originalInput = this.description + " /by " + this.originalEndTime;
+            DeadlineTask copy = new DeadlineTask(originalInput);
+            copy.markDone(this.isDone);
+            return copy;
+        } catch (LunaException e) {
+            // This should not happen for valid existing tasks
+            throw new RuntimeException("Failed to copy DeadlineTask", e);
+        }
+    }
 }

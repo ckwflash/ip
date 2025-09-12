@@ -19,12 +19,30 @@ public class Luna {
     private static final String DATA_FILE_PATH = "./data/luna.txt";
     private TaskList tasks;
     private Storage storage;
+    
+    // Undo functionality - simple single-level undo
+    private TaskList previousTaskState;
+    private String lastCommand;
 
     /**
      * Constructor for GUI and instance usage
      */
     public Luna() {
         this.storage = new Storage(DATA_FILE_PATH);
+        assert storage != null : "Storage should be successfully initialized";
+
+        ArrayList<Task> loadedTasks = storage.load();
+        assert loadedTasks != null : "Storage.load() should never return null, even for empty lists";
+
+        this.tasks = new TaskList(loadedTasks);
+        assert tasks != null : "TaskList should be successfully initialized";
+    }
+
+    /**
+     * Constructor for testing with custom file path
+     */
+    public Luna(String dataFilePath) {
+        this.storage = new Storage(dataFilePath);
         assert storage != null : "Storage should be successfully initialized";
 
         ArrayList<Task> loadedTasks = storage.load();
@@ -55,7 +73,7 @@ public class Luna {
                 return output;
             }
 
-            executeCommand(parsedCommand, tasks, ui, storage);
+            executeCommand(parsedCommand, ui);
             String output = ui.getOutput();
             assert output != null : "UI output should never be null after command execution";
             return output;
@@ -69,7 +87,7 @@ public class Luna {
     /**
      * Checks if the marking is valid and does so
      */
-    private static void markCommand(String indexStr, TaskList tasks, boolean markDone, Ui ui) throws LunaException {
+    private void markCommand(String indexStr, boolean markDone, Ui ui) throws LunaException {
         assert indexStr != null : "Index string should not be null";
         assert tasks != null : "TaskList should not be null";
         assert ui != null : "Ui should not be null";
@@ -99,33 +117,43 @@ public class Luna {
     /**
      * Executes the given parsed command
      */
-    private static void executeCommand(ParsedCommand parsedCommand, TaskList tasks,
-        Ui ui, Storage storage) throws LunaException {
+    private void executeCommand(ParsedCommand parsedCommand, Ui ui) throws LunaException {
         assert parsedCommand != null : "ParsedCommand should not be null";
         assert tasks != null : "TaskList should not be null";
         assert ui != null : "Ui should not be null";
         assert storage != null : "Storage should not be null";
         assert parsedCommand.getCommandType() != null : "Command type should not be null";
 
+        String commandType = parsedCommand.getCommandType();
+
+        // Save state before modifying commands (but not for undo itself)
+        if (!commandType.equals("undo")) {
+            saveStateForUndo(commandType);
+        }
+
         int initialTaskCount = tasks.size();
 
-        switch (parsedCommand.getCommandType()) {
+        switch (commandType) {
         case "list":
             ui.showTaskList(tasks.getTasks());
             assert tasks.size() == initialTaskCount : "List command should not change task count";
             break;
+        case "undo":
+            undoLastCommand(ui);
+            storage.save(tasks.getTasks());
+            break;
         case "mark":
-            markCommand(parsedCommand.getArguments(), tasks, true, ui);
+            markCommand(parsedCommand.getArguments(), true, ui);
             storage.save(tasks.getTasks());
             assert tasks.size() == initialTaskCount : "Mark command should not change task count";
             break;
         case "unmark":
-            markCommand(parsedCommand.getArguments(), tasks, false, ui);
+            markCommand(parsedCommand.getArguments(), false, ui);
             storage.save(tasks.getTasks());
             assert tasks.size() == initialTaskCount : "Unmark command should not change task count";
             break;
         case "delete":
-            deleteCommand(parsedCommand.getArguments(), tasks, ui);
+            deleteCommand(parsedCommand.getArguments(), ui);
             storage.save(tasks.getTasks());
             assert tasks.size() == initialTaskCount - 1 : "Delete command should reduce task count by 1";
             break;
@@ -154,7 +182,7 @@ public class Luna {
             assert tasks.size() == initialTaskCount + 1 : "Event command should increase task count by 1";
             break;
         case "find":
-            findCommand(parsedCommand.getArguments(), tasks, ui);
+            findCommand(parsedCommand.getArguments(), ui);
             assert tasks.size() == initialTaskCount : "Find command should not change task count";
             break;
         default:
@@ -165,7 +193,7 @@ public class Luna {
     /**
      * Deletes a task from the task list
      */
-    private static void deleteCommand(String indexStr, TaskList tasks, Ui ui) throws LunaException {
+    private void deleteCommand(String indexStr, Ui ui) throws LunaException {
         assert indexStr != null : "Index string should not be null";
         assert tasks != null : "TaskList should not be null";
         assert ui != null : "Ui should not be null";
@@ -188,7 +216,7 @@ public class Luna {
     /**
      * Finds tasks that contain the given keyword
      */
-    private static void findCommand(String keyword, TaskList tasks, Ui ui) {
+    private void findCommand(String keyword, Ui ui) {
         assert keyword != null : "Search keyword should not be null";
         assert tasks != null : "TaskList should not be null";
         assert ui != null : "Ui should not be null";
@@ -197,5 +225,55 @@ public class Luna {
         assert matchingTasks != null : "findTasks should never return null, even for empty results";
 
         ui.showSearchResults(matchingTasks);
+    }
+
+    /**
+     * Saves the current state for undo functionality
+     */
+    private void saveStateForUndo(String commandType) {
+        assert tasks != null : "Tasks should not be null when saving state";
+        assert commandType != null : "Command type should not be null";
+
+        // Only save state for commands that modify the task list
+        if (isModifyingCommand(commandType)) {
+            this.previousTaskState = tasks.copy();
+            this.lastCommand = commandType;
+            assert previousTaskState != null : "Previous task state should be saved";
+            assert lastCommand != null : "Last command should be saved";
+        }
+    }
+
+    /**
+     * Checks if a command type modifies the task list
+     */
+    private boolean isModifyingCommand(String commandType) {
+        assert commandType != null : "Command type should not be null";
+
+        return commandType.equals("mark") || commandType.equals("unmark") ||
+               commandType.equals("delete") || commandType.equals("todo") ||
+               commandType.equals("deadline") || commandType.equals("event");
+    }
+
+    /**
+     * Undoes the last command if possible
+     */
+    private void undoLastCommand(Ui ui) throws LunaException {
+        assert ui != null : "Ui should not be null";
+
+        if (previousTaskState == null) {
+            throw new LunaException("No previous command to undo");
+        }
+
+        assert lastCommand != null : "Last command should not be null if previous state exists";
+
+        // Restore the previous state
+        this.tasks = previousTaskState.copy();
+        assert tasks != null : "Tasks should be restored after undo";
+
+        // Clear undo state to prevent double undo
+        this.previousTaskState = null;
+        this.lastCommand = null;
+
+        ui.showUndoSuccess();
     }
 }

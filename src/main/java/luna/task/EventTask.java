@@ -109,4 +109,21 @@ public class EventTask extends ToDoTask {
 
         return result;
     }
+
+    /**
+     * Creates a copy of this EventTask
+     */
+    @Override
+    public Task copy() {
+        try {
+            // Reconstruct the original input string
+            String originalInput = this.description + " /from " + this.startTime + " /to " + this.endTime;
+            EventTask copy = new EventTask(originalInput);
+            copy.markDone(this.isDone);
+            return copy;
+        } catch (LunaException e) {
+            // This should not happen for valid existing tasks
+            throw new RuntimeException("Failed to copy EventTask", e);
+        }
+    }
 }
