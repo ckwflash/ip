@@ -159,6 +159,11 @@ public class Storage {
         }
     }
 
+    // AI-assisted refactoring: GitHub Copilot was used to help extract the parsing logic
+    // for deadline and event tasks into separate helper methods to improve code readability
+    // and follow the Single Level of Abstraction Principle (SLAP). This reduced the length
+    // of the parseTaskFromFile method and made the code more maintainable.
+
     /**
      * Parses a deadline task from file content
      */
