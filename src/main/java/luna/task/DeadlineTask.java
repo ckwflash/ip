@@ -141,7 +141,6 @@ public class DeadlineTask extends ToDoTask {
     }
 
     @Override
-<<<<<<< HEAD
     public String toString() {
         if (hasTime && endDateTime != null) {
             // Format with time: "MMM dd yyyy, h:mma" (e.g., "Dec 02 2019, 6:00PM")
@@ -154,36 +153,6 @@ public class DeadlineTask extends ToDoTask {
         } else {
             // Fall back to original string if parsing failed
             return super.toString() + " (by: " + originalEndTime + ")";
-=======
-    public String taskView() {
-        assert originalEndTime != null : "Original end time should not be null";
-        
-        String superView = super.taskView();
-        assert superView != null : "Super class task view should not be null";
-        
-        if (hasTime && endDateTime != null) {
-            // Format with time: "MMM dd yyyy, h:mma" (e.g., "Dec 02 2019, 6:00PM")
-            String formattedDate = endDateTime.format(DateTimeFormatter.ofPattern("MMM dd yyyy, h:mma"));
-            assert formattedDate != null : "Formatted date should not be null";
-            
-            String result = superView + " (by: " + formattedDate + ")";
-            assert result.contains("(by: ") : "Task view should contain deadline indicator";
-            return result;
-        } else if (!hasTime && endDate != null) {
-            // Format date only: "MMM dd yyyy" (e.g., "Dec 02 2019")
-            String formattedDate = endDate.format(DateTimeFormatter.ofPattern("MMM dd yyyy"));
-            assert formattedDate != null : "Formatted date should not be null";
-            
-            String result = superView + " (by: " + formattedDate + ")";
-            assert result.contains("(by: ") : "Task view should contain deadline indicator";
-            return result;
-        } else {
-            // Fall back to original string if parsing failed
-            String result = superView + " (by: " + originalEndTime + ")";
-            assert result.contains("(by: ") : "Task view should contain deadline indicator";
-            assert result.contains(originalEndTime) : "Task view should contain original end time";
-            return result;
->>>>>>> master
         }
     }
 

@@ -93,26 +93,8 @@ public class EventTask extends ToDoTask {
     }
 
     @Override
-<<<<<<< HEAD
     public String toString() {
         return super.toString() + " (from: " + startTime + " to: " + endTime + ")";
-=======
-    public String taskView() {
-        assert startTime != null : "Start time should not be null";
-        assert endTime != null : "End time should not be null";
-
-        String superView = super.taskView();
-        assert superView != null : "Super class task view should not be null";
-
-        String result = superView + " (from: " + startTime + " to: " + endTime + ")";
-        assert result != null : "Task view should not be null";
-        assert result.contains("(from: ") : "Task view should contain start time indicator";
-        assert result.contains(" to: ") : "Task view should contain end time indicator";
-        assert result.contains(startTime) : "Task view should contain start time";
-        assert result.contains(endTime) : "Task view should contain end time";
-
-        return result;
->>>>>>> master
     }
 
     /**
