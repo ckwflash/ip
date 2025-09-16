@@ -79,7 +79,7 @@ public class Storage {
     public void save(ArrayList<Task> tasks) {
         assert tasks != null : "Tasks list should not be null when saving";
         assert filePath != null : "File path should not be null when saving";
-        
+
         try {
             // Create data directory if it doesn't exist
             File file = new File(filePath);
@@ -91,7 +91,7 @@ public class Storage {
 
             FileWriter writer = new FileWriter(filePath);
             assert writer != null : "File writer should be created successfully";
-            
+
             for (Task task : tasks) {
                 assert task != null : "Task in list should not be null";
                 String toString = task.toString();
@@ -114,7 +114,7 @@ public class Storage {
 
         try {
             assert line != null : "Line should not be null at this point";
-            
+
             if (!line.startsWith("[") || line.length() < 8) {
                 return null;
             }
@@ -123,7 +123,7 @@ public class Storage {
             char taskType = line.charAt(1);
             boolean isDone = line.charAt(5) == 'X';
             String content = line.substring(8);
-            
+
             assert content != null : "Extracted content should not be null";
 
             Task task = null;
@@ -133,34 +133,12 @@ public class Storage {
                 assert task != null : "ToDoTask should be created successfully";
                 break;
             case 'D':
-                // Format: description (by: date)
-                int byIndex = content.lastIndexOf(" (by: ");
-                if (byIndex != -1 && content.endsWith(")")) {
-                    String description = content.substring(0, byIndex);
-                    String date = content.substring(byIndex + 6, content.length() - 1);
-                    assert description != null : "Parsed description should not be null";
-                    assert date != null : "Parsed date should not be null";
-                    task = new DeadlineTask(description + " /by " + date);
-                    assert task != null : "DeadlineTask should be created successfully";
-                }
+                task = parseDeadlineTask(content);
+                assert task != null || task == null : "Task parsing result should be valid";
                 break;
             case 'E':
-                // Format: description (from: start to: end)
-                int fromIndex = content.lastIndexOf(" (from: ");
-                if (fromIndex != -1 && content.endsWith(")")) {
-                    String description = content.substring(0, fromIndex);
-                    String timeInfo = content.substring(fromIndex + 8, content.length() - 1);
-                    int toIndex = timeInfo.lastIndexOf(" to: ");
-                    if (toIndex != -1) {
-                        String startTime = timeInfo.substring(0, toIndex);
-                        String endTime = timeInfo.substring(toIndex + 5);
-                        assert description != null : "Parsed description should not be null";
-                        assert startTime != null : "Parsed start time should not be null";
-                        assert endTime != null : "Parsed end time should not be null";
-                        task = new EventTask(description + " /from " + startTime + " /to " + endTime);
-                        assert task != null : "EventTask should be created successfully";
-                    }
-                }
+                task = parseEventTask(content);
+                assert task != null || task == null : "Task parsing result should be valid";
                 break;
             default:
                 return null;
@@ -172,12 +150,48 @@ public class Storage {
                 assert task.isDone() : "Task should be marked as done";
                 assert wasNotDone || task.isDone() : "Task status should be updated correctly";
             }
-            
+
             // task can be null if parsing fails - this is expected
             return task;
         } catch (LunaException e) {
             // Skip invalid tasks
             return null;
         }
+    }
+
+    /**
+     * Parses a deadline task from file content
+     */
+    private static Task parseDeadlineTask(String content) throws LunaException {
+        int byIndex = content.lastIndexOf(" (by: ");
+        if (byIndex != -1 && content.endsWith(")")) {
+            String description = content.substring(0, byIndex);
+            String date = content.substring(byIndex + 6, content.length() - 1);
+            assert description != null : "Parsed description should not be null";
+            assert date != null : "Parsed date should not be null";
+            return new DeadlineTask(description + " /by " + date);
+        }
+        return null;
+    }
+
+    /**
+     * Parses an event task from file content
+     */
+    private static Task parseEventTask(String content) throws LunaException {
+        int fromIndex = content.lastIndexOf(" (from: ");
+        if (fromIndex != -1 && content.endsWith(")")) {
+            String description = content.substring(0, fromIndex);
+            String timeInfo = content.substring(fromIndex + 8, content.length() - 1);
+            int toIndex = timeInfo.lastIndexOf(" to: ");
+            if (toIndex != -1) {
+                String startTime = timeInfo.substring(0, toIndex);
+                String endTime = timeInfo.substring(toIndex + 5);
+                assert description != null : "Parsed description should not be null";
+                assert startTime != null : "Parsed start time should not be null";
+                assert endTime != null : "Parsed end time should not be null";
+                return new EventTask(description + " /from " + startTime + " /to " + endTime);
+            }
+        }
+        return null;
     }
 }

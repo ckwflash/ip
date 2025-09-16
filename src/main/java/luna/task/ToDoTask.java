@@ -13,14 +13,14 @@ public class ToDoTask extends Task {
      */
     public ToDoTask(String description) throws LunaException {
         super(description);
-        
+
         assert description != null : "Description should not be null after super constructor";
-        
+
         if (description == null || description.isBlank()) {
             throw new LunaException("Description cannot be empty");
         }
         this.taskType = "T";
-        
+
         assert this.taskType.equals("T") : "ToDoTask should have task type 'T'";
         assert !description.isBlank() : "Description should not be blank after validation";
     }

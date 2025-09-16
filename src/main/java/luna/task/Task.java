@@ -8,8 +8,8 @@ public abstract class Task {
     protected boolean isDone;
 
     /**
-     * Task with the specified description and sets its status to not done
-    */
+     * Creates a task with the specified description and sets its status to not done.
+     */
     public Task(String description) {
         assert description != null : "Task description should not be null";
         // Note: Allow empty descriptions to reach business logic for proper exception handling

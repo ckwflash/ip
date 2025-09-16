@@ -72,7 +72,7 @@ public class DeadlineTask extends ToDoTask {
      */
     private void parseDateTime(String dateTimeStr) {
         assert dateTimeStr != null : "DateTime string should not be null";
-        
+
         if (dateTimeStr == null || dateTimeStr.trim().isEmpty()) {
             this.hasTime = false;
             return;
@@ -81,7 +81,7 @@ public class DeadlineTask extends ToDoTask {
         String trimmed = dateTimeStr.trim();
         assert trimmed != null : "Trimmed string should not be null";
         assert !trimmed.isEmpty() : "Trimmed string should not be empty";
-        
+
         try {
             // Try to parse already formatted dates (for loading from file)
             // Format: "MMM dd yyyy, h:mma" (e.g., "Dec 02 2019, 6:00PM")

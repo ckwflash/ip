@@ -169,28 +169,13 @@ public class Luna {
             assert tasks.size() == initialTaskCount - 1 : "Delete command should reduce task count by 1";
             break;
         case "todo":
-            Task todo = new ToDoTask(parsedCommand.getArguments());
-            assert todo != null : "ToDoTask should be successfully created";
-            tasks.add(todo);
-            ui.showTaskAdded(todo, tasks.size());
-            storage.save(tasks.getTasks());
-            assert tasks.size() == initialTaskCount + 1 : "Todo command should increase task count by 1";
+            createTodoTask(parsedCommand.getArguments(), ui, initialTaskCount);
             break;
         case "deadline":
-            Task deadline = new DeadlineTask(parsedCommand.getArguments());
-            assert deadline != null : "DeadlineTask should be successfully created";
-            tasks.add(deadline);
-            ui.showTaskAdded(deadline, tasks.size());
-            storage.save(tasks.getTasks());
-            assert tasks.size() == initialTaskCount + 1 : "Deadline command should increase task count by 1";
+            createDeadlineTask(parsedCommand.getArguments(), ui, initialTaskCount);
             break;
         case "event":
-            Task event = new EventTask(parsedCommand.getArguments());
-            assert event != null : "EventTask should be successfully created";
-            tasks.add(event);
-            ui.showTaskAdded(event, tasks.size());
-            storage.save(tasks.getTasks());
-            assert tasks.size() == initialTaskCount + 1 : "Event command should increase task count by 1";
+            createEventTask(parsedCommand.getArguments(), ui, initialTaskCount);
             break;
         case "find":
             findCommand(parsedCommand.getArguments(), ui);
@@ -286,5 +271,41 @@ public class Luna {
         this.lastCommand = null;
 
         ui.showUndoSuccess();
+    }
+
+    /**
+     * Creates and adds a new todo task
+     */
+    private void createTodoTask(String arguments, Ui ui, int initialTaskCount) throws LunaException {
+        Task todo = new ToDoTask(arguments);
+        assert todo != null : "ToDoTask should be successfully created";
+        tasks.add(todo);
+        ui.showTaskAdded(todo, tasks.size());
+        storage.save(tasks.getTasks());
+        assert tasks.size() == initialTaskCount + 1 : "Todo command should increase task count by 1";
+    }
+
+    /**
+     * Creates and adds a new deadline task
+     */
+    private void createDeadlineTask(String arguments, Ui ui, int initialTaskCount) throws LunaException {
+        Task deadline = new DeadlineTask(arguments);
+        assert deadline != null : "DeadlineTask should be successfully created";
+        tasks.add(deadline);
+        ui.showTaskAdded(deadline, tasks.size());
+        storage.save(tasks.getTasks());
+        assert tasks.size() == initialTaskCount + 1 : "Deadline command should increase task count by 1";
+    }
+
+    /**
+     * Creates and adds a new event task
+     */
+    private void createEventTask(String arguments, Ui ui, int initialTaskCount) throws LunaException {
+        Task event = new EventTask(arguments);
+        assert event != null : "EventTask should be successfully created";
+        tasks.add(event);
+        ui.showTaskAdded(event, tasks.size());
+        storage.save(tasks.getTasks());
+        assert tasks.size() == initialTaskCount + 1 : "Event command should increase task count by 1";
     }
 }

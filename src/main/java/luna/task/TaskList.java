@@ -25,7 +25,9 @@ public class TaskList {
         assert tasks != null : "Input tasks list should not be null";
         this.tasks = tasks;
         assert this.tasks == tasks : "Tasks list should be set correctly";
-    }    /**
+    }
+
+    /**
      * Copy constructor that creates a new TaskList with copies of all tasks
      */
     public TaskList(TaskList other) {
@@ -113,13 +115,13 @@ public class TaskList {
 
         boolean oldStatus = task.isDone();
         task.markDone(isDone);
-        
+
         assert task.isDone() == isDone : "Task status should be updated correctly";
         assert task.isDone() != oldStatus || oldStatus == isDone : "Task status should change unless already set";
     }
 
     /**
-     * Delete a task at the given index
+     * Deletes a task at the given index
      */
     public Task deleteTask(int index) throws LunaException {
         assert tasks != null : "Tasks list should not be null";
@@ -127,13 +129,13 @@ public class TaskList {
         if (index < 0 || index >= tasks.size()) {
             throw new LunaException("Task index is out of bounds");
         }
-        
+
         int oldSize = tasks.size();
         Task removed = tasks.remove(index);
-        
+
         assert removed != null : "Removed task should not be null";
         assert tasks.size() == oldSize - 1 : "Task list size should decrease by 1";
-        
+
         return removed;
     }
 
@@ -143,20 +145,20 @@ public class TaskList {
     public ArrayList<Task> findTasks(String keyword) {
         assert keyword != null : "Search keyword should not be null";
         assert tasks != null : "Tasks list should not be null";
-        
+
         ArrayList<Task> matchingTasks = new ArrayList<>();
         for (Task task : tasks) {
             assert task != null : "Task in list should not be null";
             assert task.description != null : "Task description should not be null";
-            
+
             if (task.description.toLowerCase().contains(keyword.toLowerCase())) {
                 matchingTasks.add(task);
             }
         }
-        
+
         assert matchingTasks != null : "Matching tasks list should not be null";
         assert matchingTasks.size() <= tasks.size() : "Matching tasks should not exceed total tasks";
-        
+
         return matchingTasks;
     }
 

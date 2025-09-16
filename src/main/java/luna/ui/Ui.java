@@ -10,7 +10,7 @@ import luna.task.Task;
 public class Ui {
     private Scanner scanner;
     private StringBuilder output;
-    private boolean captureMode;
+    private boolean isCaptureMode;
 
     /**
      * Default constructor for console mode
@@ -18,21 +18,21 @@ public class Ui {
     public Ui() {
         this.scanner = new Scanner(System.in);
         this.output = new StringBuilder();
-        this.captureMode = false;
+        this.isCaptureMode = false;
     }
 
     /**
      * Constructor for string capture mode (used by GUI)
      */
-    public Ui(boolean captureMode) {
+    public Ui(boolean isCaptureMode) {
         this.scanner = null;
         this.output = new StringBuilder();
-        this.captureMode = captureMode;
+        this.isCaptureMode = isCaptureMode;
 
         assert this.output != null : "Output buffer should be initialized";
-        assert this.captureMode == captureMode : "Capture mode should be set correctly";
+        assert this.isCaptureMode == isCaptureMode : "Capture mode should be set correctly";
 
-        if (captureMode) {
+        if (isCaptureMode) {
             assert this.scanner == null : "Scanner should be null in capture mode";
         }
     }
@@ -44,7 +44,7 @@ public class Ui {
         assert text != null : "Output text should not be null";
         assert output != null : "Output buffer should not be null";
 
-        if (captureMode) {
+        if (isCaptureMode) {
             output.append(text);
         } else {
             System.out.print(text);
@@ -55,7 +55,7 @@ public class Ui {
      * Gets the captured output and clears the buffer
      */
     public String getOutput() {
-        assert captureMode : "getOutput should only be called in capture mode";
+        assert isCaptureMode : "getOutput should only be called in capture mode";
         assert output != null : "Output buffer should not be null";
 
         String result = output.toString().trim();
@@ -122,7 +122,7 @@ public class Ui {
                 addOutput((i + 1) + ". " + tasks.get(i).toString() + "\n");
             }
         }
-        if (!captureMode) {
+        if (!isCaptureMode) {
             addOutput("\n");
         }
     }
@@ -134,7 +134,7 @@ public class Ui {
         addOutput(" The following task has been added:\n");
         addOutput("  " + task.toString() + "\n");
         addOutput(" Now you have " + totalTasks + " tasks in the list.");
-        if (!captureMode) {
+        if (!isCaptureMode) {
             addOutput("\n\n");
         }
     }
@@ -145,7 +145,7 @@ public class Ui {
     public void showTaskMarked(Task task) {
         addOutput("Nice! This task has been marked as done:\n");
         addOutput("  " + task.toString());
-        if (!captureMode) {
+        if (!isCaptureMode) {
             addOutput("\n\n");
         }
     }
@@ -156,7 +156,7 @@ public class Ui {
     public void showTaskUnmarked(Task task) {
         addOutput("OK, This task has been marked as not done yet:\n");
         addOutput("  " + task.toString());
-        if (!captureMode) {
+        if (!isCaptureMode) {
             addOutput("\n\n");
         }
     }
@@ -168,7 +168,7 @@ public class Ui {
         addOutput("The following task has been removed:\n");
         addOutput("  " + task.toString() + "\n");
         addOutput("Now you have " + totalTasks + " tasks in the list.");
-        if (!captureMode) {
+        if (!isCaptureMode) {
             addOutput("\n\n");
         }
     }
@@ -185,7 +185,7 @@ public class Ui {
                 addOutput(" " + (i + 1) + "." + matchingTasks.get(i).toString() + "\n");
             }
         }
-        if (!captureMode) {
+        if (!isCaptureMode) {
             addOutput("\n");
         }
     }
@@ -195,7 +195,7 @@ public class Ui {
      */
     public void showUndoSuccess() {
         addOutput("Undo successful! Reverted the last command.\n");
-        if (!captureMode) {
+        if (!isCaptureMode) {
             addOutput("\n");
         }
     }
