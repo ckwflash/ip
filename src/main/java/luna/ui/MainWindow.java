@@ -35,6 +35,18 @@ public class MainWindow extends AnchorPane {
     /** Injects the Luna instance */
     public void setLuna(Luna d) {
         luna = d;
+        // Show welcome message when Luna is set
+        showWelcomeMessage();
+    }
+
+    /**
+     * Shows the welcome message when the application starts
+     */
+    private void showWelcomeMessage() {
+        String welcomeMessage = "Hello, nice to meet you! I'm Luna\nWhat can I do for you?";
+        dialogContainer.getChildren().add(
+                DialogBox.getLunaDialog(welcomeMessage, lunaImage)
+        );
     }
 
     /**
